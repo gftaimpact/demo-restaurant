@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "wynxx": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@wynxx/mcp@1.0.0-35710",
+        "--instance",
+        "prod02.azure.br.ai-impact.gft-cloud.com"
+      ],
+      "env": {
+        "npm_config_@wynxx:registry": "https://pkgs.dev.azure.com/gft-assets/ai-impact-feed/_packaging/ai-impact-feed/npm/registry/"
+      }
+    }
+  }
+}

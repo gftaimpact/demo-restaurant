@@ -1,0 +1,167 @@
+{
+  "categories": [
+    {
+      "id": "starters",
+      "name": "Starters",
+      "icon": "🥗",
+      "items": [
+        {
+          "id": 1,
+          "name": "Bruschetta al Pomodoro",
+          "description": "Toasted sourdough topped with fresh tomatoes, basil, garlic, and extra virgin olive oil",
+          "price": 12.50,
+          "image": "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&h=300&fit=crop",
+          "tags": ["vegetarian"],
+          "popular": true
+        },
+        {
+          "id": 2,
+          "name": "Crispy Calamari",
+          "description": "Lightly battered squid rings served with lemon aioli and marinara sauce",
+          "price": 14.00,
+          "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=300&fit=crop",
+          "tags": ["seafood"],
+          "popular": false
+        },
+        {
+          "id": 3,
+          "name": "French Onion Soup",
+          "description": "Slow-cooked caramelized onion broth with Gruyère crouton",
+          "price": 11.00,
+          "image": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=300&fit=crop",
+          "tags": ["vegetarian"],
+          "popular": false
+        },
+        {
+          "id": 4,
+          "name": "Tuna Tartare",
+          "description": "Fresh ahi tuna with avocado, sesame, soy-ginger dressing, and wonton crisps",
+          "price": 16.50,
+          "image": "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=300&fit=crop",
+          "tags": ["seafood", "gluten-free"],
+          "popular": true
+        }
+      ]
+    },
+    {
+      "id": "mains",
+      "name": "Main Courses",
+      "icon": "🍽️",
+      "items": [
+        {
+          "id": 5,
+          "name": "Grilled Ribeye Steak",
+          "description": "12oz USDA prime ribeye with truffle mashed potatoes, asparagus, and red wine jus",
+          "price": 38.00,
+          "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&h=300&fit=crop",
+          "tags": ["gluten-free"],
+          "popular": true
+        },
+        {
+          "id": 6,
+          "name": "Pan-Seared Salmon",
+          "description": "Atlantic salmon with lemon-dill beurre blanc, wild rice, and roasted vegetables",
+          "price": 32.00,
+          "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop",
+          "tags": ["seafood", "gluten-free"],
+          "popular": true
+        },
+        {
+          "id": 7,
+          "name": "Mushroom Risotto",
+          "description": "Creamy arborio rice with wild mushrooms, Parmesan, truffle oil, and fresh herbs",
+          "price": 24.00,
+          "image": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&h=300&fit=crop",
+          "tags": ["vegetarian", "gluten-free"],
+          "popular": false
+        },
+        {
+          "id": 8,
+          "name": "Roasted Chicken Supreme",
+          "description": "Free-range chicken breast with roasted garlic jus, seasonal vegetables, and fondant potato",
+          "price": 28.00,
+          "image": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400&h=300&fit=crop",
+          "tags": ["gluten-free"],
+          "popular": false
+        },
+        {
+          "id": 9,
+          "name": "Lobster Linguine",
+          "description": "Fresh lobster tail with cherry tomatoes, garlic, white wine, and basil over linguine",
+          "price": 36.00,
+          "image": "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&h=300&fit=crop",
+          "tags": ["seafood"],
+          "popular": true
+        }
+      ]
+    },
+    {
+      "id": "desserts",
+      "name": "Desserts",
+      "icon": "🍰",
+      "items": [
+        {
+          "id": 10,
+          "name": "Crème Brûlée",
+          "description": "Classic vanilla bean custard with a caramelized sugar crust",
+          "price": 12.00,
+          "image": "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=400&h=300&fit=crop",
+          "tags": ["vegetarian", "gluten-free"],
+          "popular": true
+        },
+        {
+          "id": 11,
+          "name": "Tiramisu",
+          "description": "Espresso-soaked ladyfingers layered with mascarpone cream and cocoa",
+          "price": 13.00,
+          "image": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=300&fit=crop",
+          "tags": ["vegetarian"],
+          "popular": true
+        },
+        {
+          "id": 12,
+          "name": "Chocolate Lava Cake",
+          "description": "Warm dark chocolate fondant with a molten center, served with vanilla ice cream",
+          "price": 14.00,
+          "image": "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=400&h=300&fit=crop",
+          "tags": ["vegetarian"],
+          "popular": false
+        }
+      ]
+    },
+    {
+      "id": "drinks",
+      "name": "Drinks",
+      "icon": "🍷",
+      "items": [
+        {
+          "id": 13,
+          "name": "Fresh Lemonade",
+          "description": "House-made lemonade with fresh mint and a hint of ginger",
+          "price": 6.00,
+          "image": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=400&h=300&fit=crop",
+          "tags": ["vegetarian", "gluten-free"],
+          "popular": false
+        },
+        {
+          "id": 14,
+          "name": "Espresso Martini",
+          "description": "Vodka, Kahlúa, freshly brewed espresso, shaken and served ice cold",
+          "price": 15.00,
+          "image": "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&h=300&fit=crop",
+          "tags": [],
+          "popular": true
+        },
+        {
+          "id": 15,
+          "name": "Sparkling Water",
+          "description": "San Pellegrino sparkling mineral water (750ml)",
+          "price": 5.00,
+          "image": "https://images.unsplash.com/photo-1523362628745-0c100150b504?w=400&h=300&fit=crop",
+          "tags": ["gluten-free"],
+          "popular": false
+        }
+      ]
+    }
+  ]
+}
