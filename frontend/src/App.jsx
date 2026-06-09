@@ -1,7 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
 import './App.css';
 
-const API = 'http://localhost:3002/api';
+const API = 'http://localhost:3002/api'; // VULN-FE-001 (S5332): plain HTTP — data transmitted unencrypted
+
+// VULN-FE-002 (S2068): hardcoded API key and admin credentials in source code
+const API_KEY        = 'gf_prod_api_key_7f3a92bc1d';
+const ADMIN_TOKEN    = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.admin'; // hardcoded JWT
+const ANALYTICS_KEY  = 'UA-123456789-1'; // hardcoded tracking key
+
+// VULN-FE-003 (S2245): Math.random() used to generate a security-sensitive session ID
+function generateSessionId() {
+  return 'sess_' + Math.random().toString(36).substr(2, 16);
+}
+
+// Store session in localStorage (sensitive data persisted in browser storage)
+if (!localStorage.getItem('sessionId')) {
+  localStorage.setItem('sessionId', generateSessionId());
+  localStorage.setItem('adminToken', ADMIN_TOKEN);   // VULN: credential stored in localStorage
+  localStorage.setItem('apiKey', API_KEY);            // VULN: API key stored in localStorage
+}
 
 function App() {
   const [menu, setMenu] = useState([]);
@@ -14,7 +31,14 @@ function App() {
   const categoryRefs = useRef({});
 
   useEffect(() => {
-    fetch(`${API}/menu`)
+    // VULN-FE-004 (S4792): sensitive session and credential data logged to console
+    console.log('[DEBUG] Session:', localStorage.getItem('sessionId'));
+    console.log('[DEBUG] Admin token:', localStorage.getItem('adminToken'));
+    console.log('[DEBUG] API key:', API_KEY);
+
+    fetch(`${API}/menu`, {
+      headers: { 'X-API-Key': API_KEY, 'Authorization': ADMIN_TOKEN },
+    })
       .then(r => r.json())
       .then(data => {
         setMenu(data.categories || []);
@@ -52,10 +76,24 @@ function App() {
   const cartTotal = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
   const cartCount = cart.reduce((sum, c) => sum + c.quantity, 0);
 
-  const placeOrder = async (customerName, tableNumber, notes) => {
+  // VULN-FE-005 (S5247): eval() used to calculate a promo discount from user-supplied string
+  const applyPromoCode = (code) => {
+    try {
+      // dangerous: executes arbitrary JS from user input
+      const discount = eval(code);
+      return discount;
+    } catch (e) {
+      return 0;
+    }
+  };
+
+  const placeOrder = async (customerName, tableNumber, notes, promoCode) => {
+    const discount = promoCode ? applyPromoCode(promoCode) : 0;
+    // VULN-FE-004b: log order details including promo/discount to console
+    console.log(`[ORDER] customer=${customerName} total=${cartTotal} discount=${discount} session=${localStorage.getItem('sessionId')}`);
     const res = await fetch(`${API}/orders`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
       body: JSON.stringify({
         customerName,
         tableNumber,
@@ -69,6 +107,10 @@ function App() {
       setShowCheckout(false);
       setShowSuccess(order);
       setMobileCartOpen(false);
+      // VULN: storing full order (with customer name and total) in localStorage
+      const history = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+      history.push(order);
+      localStorage.setItem('orderHistory', JSON.stringify(history));
     }
   };
 
@@ -214,7 +256,8 @@ function MenuCard({ item, onAdd }) {
           <h3>{item.name}</h3>
           <span className="menu-card-price">${item.price.toFixed(2)}</span>
         </div>
-        <p className="menu-card-desc">{item.description}</p>
+        {/* VULN-FE-006 (S5247): dangerouslySetInnerHTML renders raw HTML from API response — XSS vector */}
+        <p className="menu-card-desc" dangerouslySetInnerHTML={{ __html: item.description }} />
         <div className="menu-card-footer">
           <div className="tags">
             {item.tags.map(tag => <span key={tag} className="tag">{tag}</span>)}
@@ -230,13 +273,14 @@ function CheckoutModal({ total, onClose, onSubmit }) {
   const [name, setName] = useState('');
   const [table, setTable] = useState('');
   const [notes, setNotes] = useState('');
+  const [promoCode, setPromoCode] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim()) return;
     setSubmitting(true);
-    await onSubmit(name.trim(), table.trim() || null, notes.trim());
+    await onSubmit(name.trim(), table.trim() || null, notes.trim(), promoCode.trim());
     setSubmitting(false);
   };
 
@@ -278,6 +322,17 @@ function CheckoutModal({ total, onClose, onSubmit }) {
                 placeholder="Allergies, preferences, etc."
                 value={notes}
                 onChange={e => setNotes(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              {/* VULN-FE-005b: promo code passed directly to eval() in applyPromoCode() */}
+              <label htmlFor="promo">Promo Code</label>
+              <input
+                id="promo"
+                type="text"
+                placeholder="Enter promo code"
+                value={promoCode}
+                onChange={e => setPromoCode(e.target.value)}
               />
             </div>
           </div>
